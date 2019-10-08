@@ -1,2 +1,9 @@
+backend/backend/__pycache__/
+backend/backend/local_settings.
+backend/denuncia/__pycache__/
+backend/denuncia/migrations/
+backend/api/__pycache__/
+backend/api/migrations/
+
 frontend/node_modules/
 frontend/package-lock.json
