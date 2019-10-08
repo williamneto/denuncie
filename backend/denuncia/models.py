@@ -3,7 +3,8 @@ from django.db import models
 
 class Denuncia(models.Model):
     nome = models.CharField(
-        max_length=300
+        max_length=300,
+        null=True
     )
     cidade = models.CharField(
         max_length=300
@@ -19,9 +20,10 @@ class Denuncia(models.Model):
     )
 
 class DenunciaFile(models.Model):
-    arquivo = models.FileField()
+    arquivo = models.FileField(
+        upload_to="media/uploads/"
+    )
     denuncia = models.ForeignKey(
         Denuncia,
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.CASCADE
     )

@@ -18,7 +18,7 @@ class APIViewMixin(View):
     def post(self, request, *args, **kwargs):
         cmd = request.POST.get("cmd")
         if cmd and cmd in self.post_services:
-            data = getattr(self, "_%s" % cmd)(request.POST)
+            data = getattr(self, "_%s" % cmd)(request.POST, request.FILES)
 
             response = JsonResponse(data, safe=False)
             response["Access-Control-Allow-Origin"] = "*"

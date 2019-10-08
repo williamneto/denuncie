@@ -1,5 +1,5 @@
 from django.contrib import admin
-from denuncia.models import Denuncia
+from denuncia.models import Denuncia, DenunciaFile
 
 admin.site.register(Denuncia)
-# Register your models here.
+admin.site.register(DenunciaFile)
