@@ -13,7 +13,8 @@ const initialState = {
     "bairro": "",
     "descricao": "",
     "contato": "",
-    "arquivos": []
+    "arquivos": [],
+    "sended": false,
 }
 
 export default class Form extends Component {
@@ -64,58 +65,66 @@ export default class Form extends Component {
             data: formData,         
         })
         if (response && response.data.saved) {
-            alert("Denuncia registrada com sucesso!")
-            this.setState(initialState)
+            this.setState({...initialState, "sended": true})
         } else {
-            alert("Falha ao enviar")
+            alert("Preencha todos os campos obrigatórios ")
         }
         
         
     }
 
     render() {
-        return (
-            <section id="banner">
-                <header>
-                    <h2>Preencha o formulário</h2>
-                </header>
-                <form encType="multipart/form-data" id="denuncia-form">
-                    <div className="row">
-                        <div className="col-sm-6">
-                            <div className="form-group">
-                                <label>Quel é o seu nome?"</label>
-                                <input id="nome" value={this.state.nome} type="text" className="form-control" onChange={this.inputChange} />
-                                <small className="form-text text-muted">Não precisa se identificar se não quiser</small>
-                            </div>
-                        </div>
-                        <div className="col-sm-6">
-                            <div className="form-group">
-                                <label>Contato</label>
-                                <input id="contato" value={this.state.contato} type="text" className="form-control" onChange={this.inputChange} />
-                                <small className="form-text text-muted">Entraremos em contato para mais informações e andamento da denúncia</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Onde aconteceu?</label>
+        if (this.state.sended){
+            return (
+                <section id="banner">
+                    <header><h1>Sua denúncia foi recebida!</h1></header>
+                    Entraremos em contato para confirmar informações e informar sobre o andamento da sua denúncia.
+                </section>
+            )
+        } else {
+            return (
+                <section id="banner">
+                    <header>
+                        <h2>Preencha o formulário</h2>
+                    </header>
+                    <div id="denuncia-form">
                         <div className="row">
                             <div className="col-sm-6">
-                                <input id="cidade" value={this.state.cidade} type="text" placeholder="Cidade" className="form-control" onChange={this.inputChange} />
+                                <div className="form-group">
+                                    <label>Quel é o seu nome?"</label>
+                                    <input id="nome" value={this.state.nome} type="text" className="form-control" onChange={this.inputChange} />
+                                    <small className="form-text text-muted">Não precisa se identificar se não quiser</small>
+                                </div>
                             </div>
                             <div className="col-sm-6">
-                                <input id="bairro" value={this.state.bairro} type="text" placeholder="Bairro" className="form-control" onChange={this.inputChange} />
+                                <div className="form-group">
+                                    <label>Contato *</label>
+                                    <input id="contato" value={this.state.contato} type="text" className="form-control" onChange={this.inputChange} />
+                                    <small className="form-text text-muted">Entraremos em contato para mais informações e andamento da denúncia</small>
+                                </div>
                             </div>
                         </div>
+
+                        <div className="form-group">
+                            <label>Onde aconteceu? *</label>
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <input id="cidade" value={this.state.cidade} type="text" placeholder="Cidade" className="form-control" onChange={this.inputChange} />
+                                </div>
+                                <div className="col-sm-6">
+                                    <input id="bairro" value={this.state.bairro} type="text" placeholder="Bairro" className="form-control" onChange={this.inputChange} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label>Descreva o que aconteceu *</label>  
+                            <textarea id="descricao" value={this.state.descricao} className="form-control" rows="10" onChange={this.inputChange} />   
+                        </div>
+                        <FilesLoader arquivos={this.state.arquivos} inputChange={this.inputChange}/>
+                        <button onClick={this.sendForm} className="btn btn-light btn-lg" >Enviar</button>
                     </div>
-                    <div className="form-group">
-                        <label>Descreva o que aconteceu</label>  
-                        <textarea id="descricao" value={this.state.descricao} className="form-control" rows="10" onChange={this.inputChange} />   
-                    </div>
-                    <FilesLoader arquivos={this.state.arquivos} inputChange={this.inputChange}/>
-                    <button onClick={this.sendForm} className="btn btn-light btn-lg" >Enviar</button>
-                </form>
-            </section>
-        )
+                </section>
+            )
+        }
     }
 }
